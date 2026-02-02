@@ -8,21 +8,112 @@ bot = telebot.TeleBot('8273588028:AAF95OnMSZfCNWVNK1O94XbXmJuYOdsNcjI')
 user_levels = {}
 user_states = {}
 
+# Словари для разных уровней (заполните своими данными)
+A1_verbs = [
+    ['beginnen', 'begann', 'hat begonnen'],
+    ['bleiben', 'blieb', 'ist geblieben'],
+    ['bringen', 'brachte', 'hat gebracht'],
+    ['denken', 'dachte', 'hat gedacht'],
+    ['dürfen', 'durfte', 'hat gedurft'],
+    ['essen', 'aß', 'hat gegessen'],
+    ['fahren', 'fuhr', 'hat/ist gefahren'],
+    ['fangen', 'fing', 'hat gefangen'],
+    ['finden', 'fand', 'hat gefunden'],
+    ['fliegen', 'flog', 'hat/ist geflogen'],
+    ['geben', 'gab', 'hat gegeben'],
+    ['gehen', 'ging', 'hat gegangen'],
+    ['haben', 'hatte', 'hat gehabt'],
+    ['heißen', 'hieß', 'hat geheißen'],
+    ['helfen', 'half', 'hat geholfen']
+]
+
+A2_verbs = [
+    # TODO: Заполните глаголами уровня A2
+    # Формат: [Infinitiv, Präteritum, Perfekt]
+    # ['глагол', 'форма2', 'форма3'],
+]
+
+B1_verbs = [
+    # TODO: Заполните глаголами уровня B1
+    # Формат: [Infinitiv, Präteritum, Perfekt]
+]
+
+B2_verbs = [
+    # TODO: Заполните глаголами уровня B2
+    # Формат: [Infinitiv, Präteritum, Perfekt]
+]
+
+C1_verbs = [
+    # TODO: Заполните глаголами уровня C1
+    # Формат: [Infinitiv, Präteritum, Perfekt]
+]
+
+C2_verbs = [
+    # TODO: Заполните глаголами уровня C2
+    # Формат: [Infinitiv, Präteritum, Perfekt]
+]
+
+# Словарь для быстрого доступа к массивам глаголов по уровням
+level_verbs = {
+    1: A1_verbs,
+    2: A2_verbs,
+    3: B1_verbs,
+    4: B2_verbs,
+    5: C1_verbs,
+    6: C2_verbs
+}
+
 
 @bot.message_handler(commands=["start"])
 def start(m, res=False):
-    keyboard = types.InlineKeyboardMarkup()
-    key_yes = types.InlineKeyboardButton(text='A1', callback_data='A1')
-    keyboard.add(key_yes)
-    bot.send_message(m.chat.id, 'Привет, выбери свой уровень языка', reply_markup=keyboard)
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
+
+    # Создаем кнопки для всех уровней
+    key_a1 = types.InlineKeyboardButton(text='A1', callback_data='A1')
+    key_a2 = types.InlineKeyboardButton(text='A2', callback_data='A2')
+    key_b1 = types.InlineKeyboardButton(text='B1', callback_data='B1')
+    key_b2 = types.InlineKeyboardButton(text='B2', callback_data='B2')
+    key_c1 = types.InlineKeyboardButton(text='C1', callback_data='C1')
+    key_c2 = types.InlineKeyboardButton(text='C2', callback_data='C2')
+
+    # Добавляем кнопки в клавиатуру
+    keyboard.add(key_a1, key_a2, key_b1, key_b2, key_c1, key_c2)
+
+    bot.send_message(m.chat.id, 'Привет! Выбери свой уровень немецкого языка:', reply_markup=keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
-    if call.data == "A1":
-        user_levels[call.message.chat.id] = 1
-        bot.send_message(call.message.chat.id, 'Напиши "Готов", и мы начнем')
-        user_states[call.message.chat.id] = 'waiting_for_ready'
+    chat_id = call.message.chat.id
+
+    # Сопоставляем callback_data с числовыми уровнями
+    level_map = {
+        'A1': 1,
+        'A2': 2,
+        'B1': 3,
+        'B2': 4,
+        'C1': 5,
+        'C2': 6
+    }
+
+    if call.data in level_map:
+        selected_level = level_map[call.data]
+        user_levels[chat_id] = selected_level
+
+        # Проверяем, есть ли слова для выбранного уровня
+        verb_list = level_verbs.get(selected_level)
+
+        if not verb_list or len(verb_list) == 0:
+            level_name = call.data
+            bot.send_message(chat_id,
+                             f'Вы выбрали уровень {level_name}.\n'
+                             f'⚠️ Словарь для этого уровня пока не заполнен.\n'
+                             f'Нажми /start чтобы выбрать другой уровень.')
+        else:
+            bot.send_message(chat_id,
+                             f'Вы выбрали уровень {call.data}.\n'
+                             f'Напиши "Готов", и мы начнем упражнения!')
+            user_states[chat_id] = 'waiting_for_ready'
 
 
 @bot.message_handler(content_types=["text"])
@@ -54,30 +145,26 @@ def handle_text(message):
 
 def ask_question(message):
     chat_id = message.chat.id
+    user_level = user_levels[chat_id]
 
-    if user_levels[chat_id] == 1:
-        verb_list = [
-            ['beginnen', 'begann', 'hat begonnen'],
-            ['bleiben', 'blieb', 'ist geblieben'],
-            ['bringen', 'brachte', 'hat gebracht'],
-            ['denken', 'dachte', 'hat gedacht'],
-            ['dürfen', 'durfte', 'hat gedurft'],
-            ['essen', 'aß', 'hat gegessen'],
-            ['fahren', 'fuhr', 'hat/ist gefahren'],
-            ['fangen', 'fing', 'hat gefangen'],
-            ['finden', 'fand', 'hat gefunden'],
-            ['fliegen', 'flog', 'hat/ist geflogen'],
-            ['geben', 'gab', 'hat gegeben'],
-            ['gehen', 'ging', 'hat gegangen'],
-            ['haben', 'hatte', 'hat gehabt'],
-            ['heißen', 'hieß', 'hat geheißen'],
-            ['helfen', 'half', 'hat geholfen']
-        ]
+    # Получаем список глаголов для текущего уровня
+    verb_list = level_verbs.get(user_level)
 
-    # Выбираем случайный глагол (0-14)
+    # Проверяем, есть ли слова для этого уровня
+    if not verb_list or len(verb_list) == 0:
+        bot.send_message(chat_id,
+                         '⚠️ Словарь для этого уровня пока не заполнен.\n'
+                         'Нажми /start чтобы выбрать другой уровень.')
+
+        # Удаляем состояние пользователя
+        if chat_id in user_states:
+            del user_states[chat_id]
+        return
+
+    # Выбираем случайный глагол
     verb_num = random.randint(0, len(verb_list) - 1)
 
-    # Выбираем случайную форму (1, 2 или 3 для индексов 0, 1, 2)
+    # Выбираем случайную форму (2 или 3 для индексов 0, 1, 2)
     form = random.randint(2, 3)
 
     # Сохраняем правильный ответ и информацию о вопросе
@@ -89,11 +176,15 @@ def ask_question(message):
         'state': 'waiting_for_answer',
         'correct_answer': correct_answer,
         'form': form,
-        'verb': base_verb
+        'verb': base_verb,
+        'level': user_level
     }
 
     # Отправляем вопрос
-    bot.send_message(chat_id, f'Напиши мне {form} форму глагола "{base_verb}"')
+    level_names = {1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2'}
+    level_name = level_names.get(user_level, '')
+
+    bot.send_message(chat_id, f'Уровень: {level_name}\nНапиши мне {form} форму глагола "{base_verb}"')
 
 
 def check_answer(message):
@@ -109,9 +200,9 @@ def check_answer(message):
     correct_answer = user_data['correct_answer']
 
     if user_answer.lower() == correct_answer.lower():
-        bot.send_message(chat_id, 'Верно! ✅')
+        bot.send_message(chat_id, '✅ Верно!')
     else:
-        bot.send_message(chat_id, f'Неверно ❌\nПравильный ответ: {correct_answer}')
+        bot.send_message(chat_id, f'❌ Неверно\nПравильно: {correct_answer}')
 
     # Задаем следующий вопрос
     ask_question(message)
