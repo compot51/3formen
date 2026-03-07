@@ -50,9 +50,20 @@ A1_verbs = [
 ]
 
 A2_verbs = [
-    # TODO: Заполните глаголами уровня A2
-    # Формат: [Infinitiv, Präteritum, Perfekt]
-    # ['глагол', 'форма2', 'форма3'],
+    ['backen (backt)', 'buk', 'hat gebacken'],
+    ['biegen (biegt)', 'bog', 'hat/ist gebogen'],
+    ['bieten (bietet)', 'bot', 'hat geboten'],
+    ['bitten (bittet)', 'bat', 'hat gebeten'],
+    ['braten (brät)', 'briet', 'hat gebraten'],
+    ['fallen (fällt)', 'fiel', 'ist gefallen'],
+    ['gefallen (gefällt)', 'gefiel', 'hat gefallen'],
+    ['gewinnen (gewinnt)', 'gewann', 'hat gewonnen'],
+    ['laden (lädt)', 'lud', 'hat geladen'],
+    ['laufen (läuft)', 'lief', 'ist gelaufen'],
+    ['liegen (liegt)', 'lag', 'hat gelegen'],
+    ['nennen (nennt)', 'nannte', 'hat genannt'],
+    ['rennen (rennt)', 'rannte', 'ist gerannt'],
+    ['riechen (riecht)', 'roch', 'hat gerochen']
 ]
 
 B1_verbs = [
