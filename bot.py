@@ -21,7 +21,7 @@ A1_verbs = [
     ['finden (findet)', 'fand', 'hat gefunden'],
     ['fliegen (fliegt)', 'flog', 'hat/ist geflogen'],
     ['geben (gibt)', 'gab', 'hat gegeben'],
-    ['gehen (geht)', 'ging', 'hat gegangen'],
+    ['gehen (geht)', 'ging', 'ist gegangen'],
     ['haben (hat)', 'hatte', 'hat gehabt'],
     ['heißen (heißt)', 'hieß', 'hat geheißen'],
     ['helfen (hilft)', 'half', 'hat geholfen'],
@@ -37,7 +37,7 @@ A1_verbs = [
     ['schreiben (schriebt)', 'schrieb', 'hat geschrieben'],
     ['schwimmen (schwimmt)', 'schwamm', 'hat/ist geschwommen'],
     ['sehen (sieht)', 'sah', 'hat gesehen'],
-    ['sein (ist)', 'war', 'hat gewesen'],
+    ['sein (ist)', 'war', 'ist gewesen'],
     ['singen (singt)', 'sang', 'hat gesungen'],
     ['sollen (soll)', 'sollte', 'hat gesollt'],
     ['sprechen (spricht)', 'sprach', 'hat gesprochen'],
@@ -63,7 +63,19 @@ A2_verbs = [
     ['liegen (liegt)', 'lag', 'hat gelegen'],
     ['nennen (nennt)', 'nannte', 'hat genannt'],
     ['rennen (rennt)', 'rannte', 'ist gerannt'],
-    ['riechen (riecht)', 'roch', 'hat gerochen']
+    ['riechen (riecht)', 'roch', 'hat gerochen'],
+    ['schließen (schließt)', 'schloss', 'hat geschlossen'],
+    ['sitzen (sitzt)', 'saß', 'hat gesessen'],
+    ['steigen (steigt)', 'stieg', 'ist gestiegen'],
+    ['sterben (stirbt)', 'starb', 'ist gestorben'],
+    ['treiben (treibt)', 'trieb', 'hat/ist getrieben'],
+    ['vergessen (vergisst)', 'vergaß', 'hat vergessen'],
+    ['verlieren (verliert)', 'verlor', 'hat verloren'],
+    ['wachsen (wächst)', 'wuchs', 'ist gewachsen'],
+    ['waschen (wäscht)', 'wusch', 'hat gewaschen'],
+    ['werden (wird)', 'wurde', 'ist geworden'],
+    ['werfen (wirft)', 'warf', 'hat geworfen'],
+    ['ziehen (zieht)', 'zog', 'hat/ist gezogen']
 ]
 
 B1_verbs = [
